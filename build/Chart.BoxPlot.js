@@ -585,20 +585,21 @@ var ArrayElementBase = Chart.Element.extend({
 		// use the median to initialize the random number generator
 		var random = rnd(container.median);
 
-		var itemRadius = vm.itemRadius;
-		if (vert) {
-			var x = vm.x;
-			var width = computeLaneWidth(vm.width, vm.padding);
-			container.items.forEach(function (v) {
-				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
-			});
-		} else {
-			var y = vm.y;
-			var height = computeLaneWidth(vm.height, vm.padding);
-			container.items.forEach(function (v) {
-				Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
-			});
-		}
+		// NOTE: NOT NEEDED INTERNALLY - DRAWS INDIVIDUAL DATA POINTS
+		// const itemRadius = vm.itemRadius;
+		// if (vert) {
+		// 	const x = vm.x;
+		// 	const width = computeLaneWidth(vm.width, vm.padding);
+		// 	container.items.forEach((v) => {
+		// 		Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, x - width / 2 + random() * width, v);
+		// 	});
+		// } else {
+		// 	const y = vm.y;
+		// 	const height = computeLaneWidth(vm.height, vm.padding);
+		// 	container.items.forEach((v) => {
+		// 		Chart.canvasHelpers.drawPoint(ctx, vm.itemStyle, itemRadius, v, y - height / 2 + random() * height);
+		// 	});
+		// }
 		ctx.restore();
 	},
 	_drawOutliers: function _drawOutliers(vm, container, ctx, vert) {
