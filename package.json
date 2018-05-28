@@ -14,8 +14,8 @@
     "url": "https://github.com/datavisyn/chartjs-chart-box-and-violin-plot.git"
   },
   "dependencies": {
-    "chart.js": "^2.7.2",
-    "d3-array": "^1.2.1",
+    "chart.js": "2.7.1",
+    "d3-array": "1.2.1",
     "science": "github:sgratzl/science.js"
   },
   "devDependencies": {
