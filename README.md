@@ -1,10 +1,11 @@
-# Chart.js Box and Violin Plot 
+# Chart.js Box and Violin Plot
 [![datavisyn][datavisyn-image]][datavisyn-url] [![NPM Package][npm-image]][npm-url] [![CircleCI][circleci-image]][circleci-url]
 
 Chart.js module for charting box and violin plots
 
-![Box Plot](https://user-images.githubusercontent.com/4129778/33257815-cee715e8-d357-11e7-899b-9f18f5ab7a5c.png)
-![Violin Plot](https://user-images.githubusercontent.com/4129778/33257814-cecc222e-d357-11e7-8def-e298b7e655b1.png)
+![Box Plot](https://user-images.githubusercontent.com/4129778/42724341-9a6ec554-8770-11e8-99b5-626e34dafdb3.png)
+![Violin Plot](https://user-images.githubusercontent.com/4129778/42724342-9a8dbb58-8770-11e8-9a30-3e69d07d3b79.png)
+
 
 ## Install
 ```bash
@@ -14,86 +15,102 @@ npm install --save chart.js chartjs-chart-box-and-violin-plot
 ## Usage
 see [Samples](https://github.com/datavisyn/chartjs-chart-box-and-violin-plot/tree/master/samples) on Github
 
+and [CodePen](https://codepen.io/sgratzl/pen/QxoLoY)
+
 ## Chart
 
-four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`. 
+four new types: `boxplot`, `horizontalBoxplot`, `violin`, and `horizontalViolin`.
 
 ## Styling
 The boxplot element is called `boxandwhiskers`. The basic options are from the `rectangle` element. The violin element is called `violin` also based on the `rectangle` element.
 
 ```typescript
 interface IBaseStyling {
-    /**
-     * @default see rectangle
-     */
-    backgroundColor: string;
-    /**
-     * @default see rectangle
-     */
-    strokeColor: string;
-    /**
-     * @default 1
-     */
-    borderWidth: number;
-    
-    /**
-     * radius used to render outliers
-     * @default 2
-     */
-    outlierRadius: number;
-    
-    /**
-     * @default see rectangle.backgroundColor
-     */
-    outlierColor: string;
+  /**
+   * @default see rectangle
+   */
+  backgroundColor: string;
+  /**
+   * @default see rectangle
+   */
+  strokeColor: string;
+  /**
+   * @default 1
+   */
+  borderWidth: number;
 
-    /**
-     * radius used to render items
-     * @default 2
-     */
-    itemRadius: number;
-    
-    /**
-     * item style used to render items
-     * @default circle
-     */
-    itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
+  /**
+   * radius used to render outliers
+   * @default 2
+   */
+  outlierRadius: number;
 
-    /*
-     * background color for items
-     * @default see rectangle backgroundColor
-     */
-    itemBackgroundColor: string;
+  /**
+   * @default see rectangle.backgroundColor
+   */
+  outlierColor: string;
 
-    /*
-     * border color for items
-     * @default see rectangle backgroundColor
-     */
-    itemBorderColor: string;
+  /**
+   * radius used to render items
+   * @default 0 so disabled
+   */
+  itemRadius: number;
 
-    /**
-     * padding for a single box or violin
-     * less than 1 is interpreted as percent
-     * greater than 1 is interpreted as pixel
-     * @default 0;
-     */
-    padding: number;
+  /**
+   * item style used to render items
+   * @default circle
+   */
+  itemStyle: 'circle'|'triangle'|'rect'|'rectRounded'|'rectRot'|'cross'|'crossRot'|'star'|'line'|'dash';
+
+  /*
+   * background color for items
+   * @default see rectangle backgroundColor
+   */
+  itemBackgroundColor: string;
+
+  /*
+   * border color for items
+   * @default see rectangle backgroundColor
+   */
+  itemBorderColor: string;
 }
 
 interface IBoxPlotStyling extends IBaseStyling {
-    // no extra styling options
+  // no extra styling options
 }
 
 interface IViolinStyling extends IBaseStyling {
-    /**
-    * number of sample points of the underlying KDE for creating the violin plot
-    * @default 100
-    */
-    points: number;
+  /**
+  * number of sample points of the underlying KDE for creating the violin plot
+  * @default 100
+  */
+  points: number;
 }
 ```
 
-In addition, two new scales were created  `arrayLinear` and `arrayLogarithmic`. They were needed to adapt to the required data structure.
+In addition, two new scales were created `arrayLinear` and `arrayLogarithmic`. They were needed to adapt to the required data structure.
+
+## Scale Options
+
+Both `arrayLinear` and `arrayLogarithmic` support the two additional options to their regular counterparts:
+
+```typescript
+interface IArrayLinearScale {
+  ticks: {
+    /**
+     * statistic measure that should be used for computing the minimal data limit
+     * @default 'min'
+     */
+    minStats: 'min'|'q1'|'whiskerMin';
+
+    /**
+     * statistic measure that should be used for computing the maximal data limit
+     * @default 'max'
+     */
+    maxStats: 'max'|'q3'|'whiskerMax';
+  };
+}
+```
 
 ## Data structure
 
@@ -106,34 +123,34 @@ interface IBaseItem {
   median: number;
   max: number;
   /**
-   * values of the raw items used for rendering jittered background points 
+   * values of the raw items used for rendering jittered background points
    */
-  items?: number[];     
+  items?: number[];
 }
 
 interface IBoxPlotItem extends IBaseItem {
   q1: number;
   q3: number;
   /**
-   * list of box plot outlier values  
+   * list of box plot outlier values
    */
   outliers?: number[];
 }
 
 interface IKDESamplePoint {
   /**
-   * sample value 
-   */   
+   * sample value
+   */
   v: number;
   /**
-   * sample estimation 
+   * sample estimation
    */
   estimate: number;
 }
 
 interface IViolinItem extends IBaseItem {
   /**
-   * samples of the underlying KDE 
+   * samples of the underlying KDE
    */
   coords: IKDESamplePoint[];
 }
@@ -158,7 +175,7 @@ This repository is created by&nbsp;<strong><a href="http://datavisyn.io">datavis
 [datavisyn-image]: https://img.shields.io/badge/datavisyn-io-black.svg
 [datavisyn-url]: http://datavisyn.io
 [npm-image]: https://badge.fury.io/js/chartjs-chart-box-and-violin-plot.svg
-[npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot 
+[npm-url]: https://npmjs.org/package/chartjs-chart-box-and-violin-plot
 [circleci-image]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot.svg?style=shield
 [circleci-url]: https://circleci.com/gh/datavisyn/chartjs-chart-box-and-violin-plot
 
