@@ -145,8 +145,6 @@ export function commonDataLimits(extraCallback) {
   const chart = this.chart;
   const isHorizontal = this.isHorizontal();
   const tickOpts = this.options.ticks;
-  const minStats = tickOpts.minStats;
-  const maxStats = tickOpts.maxStats;
 
   const matchID = (meta) => isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id;
 
@@ -157,6 +155,23 @@ export function commonDataLimits(extraCallback) {
   // Regular charts use x, y values
   // For the boxplot chart we have rawValue.min and rawValue.max for each point
   chart.data.datasets.forEach((d, i) => {
+    // @STAR_CHANGES
+    // min/maxStats need to be computed per dataset to accomodate for dataset level axes settings
+    let minStats = tickOpts.minStats;
+    let maxStats = tickOpts.maxStats;
+
+    // @STAR_CHANGES
+    // If dataset specific axes settings (specifically max/minStats) are defined, use those
+    const axes = this.chart.options && this.chart.options.yAxes ? this.chart.options.yAxes : null;
+    if (axes && axes.length > 0 && axes[i] && axes[i].ticks) {
+      if (axes[i].ticks.maxStats === 'whiskerMax') {
+        maxStats = axes[i].ticks.maxStats;
+      }
+      if (axes[i].ticks.minStats === 'whiskerMin') {
+        minStats = axes[i].ticks.minStats;
+      }
+    }
+
     const meta = chart.getDatasetMeta(i);
     if (!chart.isDatasetVisible(i) || !matchID(meta)) {
       return;

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-import {asViolinStats} from '../data';
+import {asViolinStats, asBoxPlotStats} from '../data';
 import * as Chart from 'chart.js';
 import base, {verticalDefaults, horizontalDefaults} from './base';
 import {range as d3range, max as d3max} from 'd3-array';
@@ -36,12 +36,21 @@ const controller = Object.assign({}, base, {
     const data = this.chart.data.datasets[datasetIndex].data[index];
     const violin = asViolinStats(data);
 
+    // @STAR_CHANGES
+    // Add boxplot data to the violin chart, specifically whisker max and min values
+    violin.boxplotData = asBoxPlotStats(data);
+    violin.boxplotData.index = datasetIndex;
+    violin.boxplotData.whiskerMaxPx = scale.getPixelForValue(violin.boxplotData.whiskerMax);
+    violin.boxplotData.whiskerMinPx = scale.getPixelForValue(violin.boxplotData.whiskerMin);
+
     const range = violin.max - violin.min;
     const samples = d3range(violin.min, violin.max, range / points);
     if (samples[samples.length - 1] !== violin.max) {
       samples.push(violin.max);
     }
-    const coords = violin.coords || violin.kde(samples).map((v) => ({v: v[0], estimate: v[1]}));
+    // @STAR_CHANGES
+    // Prefer using actual data rather than samples for a more acurate representation
+    const coords = violin.coords || violin.kde(data || samples).map((v) => ({v: v[0], estimate: v[1]}));
     const r = {
       min: scale.getPixelForValue(violin.min),
       max: scale.getPixelForValue(violin.max),

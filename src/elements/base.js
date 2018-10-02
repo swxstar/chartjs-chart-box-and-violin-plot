@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import {rnd} from '../data';
+// import {rnd} from '../data';
 
 export const defaults = Object.assign({}, Chart.defaults.global.elements.rectangle, {
   borderWidth: 1,
@@ -20,14 +20,14 @@ const ArrayElementBase = Chart.Element.extend({
   draw() {
     // abstract
   },
-  _drawItems(vm, container, ctx, vert) {
+  _drawItems(vm, container, ctx) { // , vert) {
     if (vm.itemRadius <= 0 || !container.items || container.items.length <= 0) {
       return;
     }
     ctx.save();
     ctx.strokeStle = vm.itemBorderColor;
     ctx.fillStyle = vm.itemBackgroundColor;
-    // NOTE: NOT NEEDED INTERNALLY - DRAWS INDIVIDUAL DATA POINTS
+    // @STAR_CHANGES - NOTE: NOT NEEDED INTERNALLY - DRAWS INDIVIDUAL DATA POINTS
     // jitter based on random data
     // use the median to initialize the random number generator
     // const random = rnd(container.median);

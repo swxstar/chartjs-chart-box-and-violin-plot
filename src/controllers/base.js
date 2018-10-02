@@ -36,6 +36,10 @@ const array = {
       r.outliers = container.outliers.map((d) => scale.getPixelForValue(Number(d)));
     }
 
+    if (container.boxplotData) {
+      r.boxplotData = container.boxplotData;
+    }
+
     if (Array.isArray(data)) {
       r.items = data.map((d) => scale.getPixelForValue(Number(d)));
     }
