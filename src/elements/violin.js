@@ -21,7 +21,9 @@ const Violin = Chart.elements.Violin = ArrayElementBase.extend({
     let chartMin = violin.min;
     let chartMax = violin.max;
     const index = violin.boxplotData.index;
-    const axes = (this._chart.options.yAxes || this._chart.options.scale.yAxes)[index];
+    const axes = (this._chart.options.yAxes
+      || (this._chart.options.scales && this._chart.options.scales.yAxes)
+      || {})[index];
     if (violin.boxplotData && axes && axes.ticks) {
       if (axes.ticks.maxStats === 'whiskerMax') {
         chartMax = violin.boxplotData.whiskerMaxPx;
