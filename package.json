@@ -16,7 +16,7 @@
   "dependencies": {
     "chart.js": "2.7.1",
     "d3-array": "1.2.1",
-    "science": "github:sgratzl/science.js"
+    "science": "git+https://github.com/sgratzl/science.js.git#eef07e740aeaf2a481bf99fcd98711f57c8d656e"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
